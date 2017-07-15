@@ -1,28 +1,51 @@
-var tag = document.createElement('script');
-tag.id = 'iframe-demo';
-tag.src = 'https://www.youtube.com/iframe_api';
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-var player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('existing-iframe-example', {
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-  });
-}
-function onPlayerReady(event) {
-}
+  function IntervalTimer(callback, interval) {
+        var timerId, startTime, remaining = 0;
+        var state = 0; //  0 = idle, 1 = running, 2 = paused, 3= resumed
 
-function onPlayerStateChange(event) {
-}
+        this.pause = function () {
+            if (state != 1) return;
 
-function triggerHotspot(){
-  console.log("triggerHotspot called");
-  $("#hotspots-container").css("display", "block");
-  clearInterval(timer);
-}
+            remaining = interval - (new Date() - startTime);
+            window.clearInterval(timerId);
+            state = 2;
+        };
 
-var timer;
+        this.resume = function () {
+            if (state != 2) return;
+
+            state = 3;
+            window.setTimeout(this.timeoutCallback, remaining);
+        };
+
+        this.timeoutCallback = function () {
+            if (state != 3) return;
+
+            callback();
+
+            startTime = new Date();
+            timerId = window.setInterval(callback, interval);
+            state = 1;
+        };
+
+        startTime = new Date();
+        timerId = window.setInterval(callback, interval);
+        state = 1;
+    }
+
+  function triggerHotspot(){
+    console.log("triggerHotspot called");
+    $("#hotspots-container").css("display", "block");
+    // clearInterval(timer);
+  }
+
+  function hideHotspot(){
+    console.log("hideHotspot called");
+    $("#hotspots-container").css("display", "none");
+  }
+
+  var timer;
+
+
+
+
