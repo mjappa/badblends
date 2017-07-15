@@ -35,13 +35,13 @@
 
   function triggerHotspot(){
     console.log("triggerHotspot called");
-    $("#hotspots-container").css("display", "block");
+    $(".hotspot").css("display", "block");
     // clearInterval(timer);
   }
 
   function hideHotspot(){
     console.log("hideHotspot called");
-    $("#hotspots-container").css("display", "none");
+    $(".hotspot").css("display", "none");
   }
 
   var timer;
