@@ -28,16 +28,14 @@
               <div id="logo" class="logo">
                 <a href="index.html"><img src="img/banner.jpg" alt="Bad Blends"></a>
               </div>
-              <div class="hotspots" id="hotspots-container">
-                  <div class="hotspot fat hotspot1">
 
+                  <div class="hotspot fat hotspot1">
                   </div>
                   <div class="hotspot fat hotspot2">
-
                   </div>
                   <div class="hotspot fat hotspot3">
-
                   </div>
+
               </div>
               <div class="video-container">
                 <!-- Change the vimeo id -->
@@ -68,8 +66,37 @@
 
                 window.location.href = "index31.html";
             });
-              timer = setInterval(triggerHotspot, 9750); //Change the time on this
 
+              var cuePoint = 9.75; //change the cuepoint here
+
+              timer = new IntervalTimer(triggerHotspot, cuePoint*1000);
+
+              var player = new Vimeo.Player($('iframe'));
+
+              player.addCuePoint(cuePoint, {
+                  customKey: 'showTrigger'
+              }).then(function(id) {
+                  // cue point was added successfully
+                  console.log("cue point success");
+              }).catch(function(error) {
+                  switch (error.name) {
+                      case 'UnsupportedError':
+                          // cue points are not supported with the current player or browser
+                          break;
+
+                      case 'RangeError':
+                          // the time was less than 0 or greater than the video’s duration
+                          break;
+
+                      default:
+                          // some other error occurred
+                          break;
+                  }
+              });
+
+              player.on('cuepoint', triggerHotspot);
+              player.on('play', function(){timer.resume();});
+              player.on('pause', function(){timer.pause();});
           });
         </script>
 

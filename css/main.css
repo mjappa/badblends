@@ -122,9 +122,9 @@ textarea {
   cursor: pointer;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 305px;
   opacity: 0;
-  display: inline-block;
+  display: none;
   background-color: #ff0000;
   width: 220px;
   height: 385px;
@@ -133,42 +133,35 @@ textarea {
 .hotspot.fat{
   width: 280px !important;
   height: 230px !important;
-  top: 280px !important;
+  top: 442px !important;
 }
 
 .hotspot1{
-  position: relative;
-  left: 63px;
-  top: 138px;
+  left: 78px;
   z-index: 1000;
 }
 .hotspot1.fat{
-  left: 33px !important;
+  left: 47px !important;
 }
 
 .hotspot2{
-  position: relative;
-  left: 166px;
-  top: 138px;
+  left: 404px;
   z-index: 1000;
 }
 .hotspot2.fat{
-  left: 76px !important;
+  left: 375px !important;
 }
 
 .hotspot3{
-  position: relative;
-  left: 270px;
-  top: 138px;
+  left: 732px;
   z-index: 1000;
 }
 .hotspot3.fat{
-  left: 118px !important;
+  left: 701px !important;
 }
 .hotspot-end{
-  position: relative;
-  left: 332px;
-  top: 276px;
+  left: 346px;
+  top: 442px;
   z-index: 1000;
   width: 338px !important;
   height: 78px !important;
