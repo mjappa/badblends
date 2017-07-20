@@ -66,36 +66,27 @@
                 window.location.href = "index16.html";
             });
 
-              var cuePoint = 9.25; //change the cuepoint here
+            var cuePoint = 9.25; //change the cuepoint here
+            var player = new Vimeo.Player($('iframe'));
 
-              timer = new IntervalTimer(triggerHotspot, cuePoint*1000);
+            function progressTracker(){
+              player.getCurrentTime().then(function(seconds) {
+              // seconds = the current playback position
+                 // console.log(seconds);
 
-              var player = new Vimeo.Player($('iframe'));
+                 if (seconds >= cuePoint){
+                    triggerHotspot();
+                 }
+                 else{
+                    hideHotspot();
+                 }
 
-              player.addCuePoint(cuePoint, {
-                  customKey: 'showTrigger'
-              }).then(function(id) {
-                  // cue point was added successfully
-                  console.log("cue point success");
               }).catch(function(error) {
-                  switch (error.name) {
-                      case 'UnsupportedError':
-                          // cue points are not supported with the current player or browser
-                          break;
-
-                      case 'RangeError':
-                          // the time was less than 0 or greater than the video’s duration
-                          break;
-
-                      default:
-                          // some other error occurred
-                          break;
-                  }
+                  // an error occurred
               });
+            }
 
-              player.on('cuepoint', triggerHotspot);
-              player.on('play', function(){timer.resume();});
-              player.on('pause', function(){timer.pause();});
+           timer = setInterval(progressTracker, 50);
           });
         </script>
 
