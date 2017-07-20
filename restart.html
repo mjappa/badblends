@@ -37,7 +37,7 @@
                   </div>
                   <div class="hotspot hotspot3">
                   </div>
-              
+
               <div class="video-container">
                   <!-- Change the vimeo id -->
                     <iframe src="https://player.vimeo.com/video/225403263?autoplay=1&title=0&byline=0&portrait=0" width="1000" height="563" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -75,34 +75,28 @@
               });
 
               var cuePoint = 4; //change the cuepoint here
-              timer = new IntervalTimer(triggerHotspot, cuePoint*1000);
 
               var player = new Vimeo.Player($('iframe'));
 
-              player.addCuePoint(cuePoint, {
-                  customKey: 'showTrigger'
-              }).then(function(id) {
-                  // cue point was added successfully
-                  console.log("cue point success");
-              }).catch(function(error) {
-                  switch (error.name) {
-                      case 'UnsupportedError':
-                          // cue points are not supported with the current player or browser
-                          break;
+              function progressTracker(){
+                player.getCurrentTime().then(function(seconds) {
+                // seconds = the current playback position
+                   // console.log(seconds);
 
-                      case 'RangeError':
-                          // the time was less than 0 or greater than the video’s duration
-                          break;
+                   if (seconds >= cuePoint){
+                      triggerHotspot();
+                   }
+                   else{
+                      hideHotspot();
+                   }
 
-                      default:
-                          // some other error occurred
-                          break;
-                  }
-              });
+                }).catch(function(error) {
+                    // an error occurred
+                });
+              }
 
-              player.on('cuepoint', triggerHotspot);
-              player.on('play', function(){timer.resume();});
-              player.on('pause', function(){timer.pause();});
+             timer = setInterval(progressTracker, 50);
+
           });
         </script>
 
